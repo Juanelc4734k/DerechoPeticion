@@ -15,12 +15,21 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 // Agregar después de crear el pool
 pool.getConnection((err, connection) => {
   if (err) {
+    console.error('Error detallado de conexión:', {
+      code: err.code,
+      message: err.message,
+      stack: err.stack
+    });
+    
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
       console.error('Se perdió la conexión con la base de datos');
     }
@@ -29,6 +38,7 @@ pool.getConnection((err, connection) => {
     }
     if (err.code === 'ECONNREFUSED') {
       console.error('La conexión a la base de datos fue rechazada');
+      console.error('Verifica que el host y puerto sean correctos:', process.env.DB_HOST);
     }
   }
   if (connection) connection.release();
