@@ -1,11 +1,21 @@
 const express = require('express');
 const mysql = require('mysql2');
 const dotenv = require('dotenv');
+const dns = require('dns');
 
 dotenv.config(); // Cargar variables de entorno desde .env
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Agregar antes de crear el pool
+dns.lookup(process.env.DB_HOST, (err, address, family) => {
+  console.log('Resolución DNS para', process.env.DB_HOST, ':', {
+    error: err ? err.message : 'ninguno',
+    address: address,
+    family: family
+  });
+});
 
 // Reemplazar la creación de conexión actual con un pool
 const pool = mysql.createPool({
