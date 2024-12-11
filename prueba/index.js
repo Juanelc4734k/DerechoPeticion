@@ -9,16 +9,28 @@ const port = process.env.PORT || 3000;
 
 // Reemplazar la creación de conexión actual con un pool
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  host: process.env.DB_HOST || 'sql301.infinityfree.com',
+  port: 3306,
+  user: process.env.DB_USER || 'if0_37892242',
+  password: process.env.DB_PASS || 'ttiaToaAGAzh',
+  database: process.env.DB_NAME || 'if0_37892242_backendderechopeticion',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
   ssl: {
     rejectUnauthorized: false
-  }
+  },
+  connectTimeout: 60000,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0
+});
+
+// Agregar logging detallado para diagnóstico
+console.log('Intentando conectar a MySQL con:', {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  database: process.env.DB_NAME,
+  port: 3306
 });
 
 // Agregar después de crear el pool
