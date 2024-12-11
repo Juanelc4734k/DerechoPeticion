@@ -19,7 +19,7 @@ dns.lookup(process.env.DB_HOST, (err, address, family) => {
 
 // Reemplazar la creación de conexión actual con un pool
 const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'sql301.infinityfree.com',
+  host: process.env.DB_HOST || '185.27.134.10',
   port: 3306,
   user: process.env.DB_USER || 'if0_37892242',
   password: process.env.DB_PASS || 'ttiaToaAGAzh',
